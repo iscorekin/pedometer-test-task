@@ -8,7 +8,7 @@ const Router: React.FC = (props) => {
         <Switch>
           <Route
             exact
-            path='/meter'
+            path='/'
             component={React.lazy(() => import('../../layouts/Meter'))}
           />
         </Switch>

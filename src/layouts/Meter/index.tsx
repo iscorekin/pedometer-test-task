@@ -1,12 +1,12 @@
 import React from 'react';
 import * as UI from './styles';
-import Meter from '../../modules/Meter';
+import MeterTable from '../../modules/Meter/Table';
 
 const MeterLayout: React.FC = props => {
 
   return (
     <UI.MeterLayoutWrapper>
-      <Meter />
+      <MeterTable />
     </UI.MeterLayoutWrapper>
   );
 };
