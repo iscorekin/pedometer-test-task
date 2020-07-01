@@ -1,5 +1,4 @@
-import styled, { css } from 'styled-components';
-import { colors } from '../../../../../constants/styles';
+import { css } from 'styled-components';
 
 export const AddButtonStyles = css`
   font-size: 18px;

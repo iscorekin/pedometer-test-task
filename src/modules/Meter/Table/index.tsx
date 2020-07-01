@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { orderBy } from 'lodash';
 import moment from 'moment';
+import { v4 } from 'uuid';
 import * as UI from './styles';
 import { IReduxState } from '../../../store/modules';
 import { requestMeterData } from '../../../store/modules/meter';
@@ -26,7 +27,7 @@ const MeterTable: React.FC = () => {
   useEffect(() => {
     if (!loading && !hasError && data.length === 0)
       dispatch(requestMeterData());
-  }, []);
+  });
 
   useEffect(() => {
     setDistances(
@@ -66,7 +67,7 @@ const MeterTable: React.FC = () => {
       </UI.TableHeaderRow>
       <UI.Table rows={data.length}>
         {distances.map((row) => (
-          <UI.TableRow>
+          <UI.TableRow key={v4()}>
             <UI.TableCell>{row.date}</UI.TableCell>
             <UI.TableCell>
               {row.distance}{' '}
