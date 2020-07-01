@@ -6,13 +6,14 @@ import { IReduxState } from '../../../store/modules';
 import { requestMeterData } from '../../../store/modules/meter';
 import HeaderCell from './components/HeaderCell';
 import pluralization from '../../../helpers/pluralization';
+import AddModal from './components/AddModal';
 
 const MeterTable: React.FC = () => {
   const dispatch = useDispatch();
   const { data, loading, hasError } = useSelector(
     (state: IReduxState) => state.meter
   );
-
+    
   const [sort, setSort] = useState({ key: 'date', asc: true });
   const [distances, setDistances] = useState(data);
 
@@ -22,12 +23,8 @@ const MeterTable: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setDistances(data);
-  }, [data]);
-
-  useEffect(() => {
     setDistances(orderBy(data, sort.key, sort.asc ? 'asc' : 'desc'));
-  }, [sort]);
+  }, [data, sort]);
 
   const handleSortClick = (key: string) => (asc: boolean) =>
     setSort({
@@ -64,6 +61,7 @@ const MeterTable: React.FC = () => {
           </UI.TableRow>
         ))}
       </UI.Table>
+      <AddModal />
     </UI.TableWrapper>
   );
 };

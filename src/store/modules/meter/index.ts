@@ -5,6 +5,7 @@ enum ActionTypes {
   REQUEST = 'METER/REQUEST',
   RECEIVE = 'METER/RECEIVE',
   REJECT = 'METER/REJECT',
+  ADD = 'METER/ADD',
 }
 
 interface IMeterState {
@@ -20,7 +21,8 @@ type GAction<T, U> = {
 
 type Action =
   | GAction<ActionTypes.REJECT | ActionTypes.REQUEST, undefined>
-  | GAction<ActionTypes.RECEIVE, IDistance[]>;
+  | GAction<ActionTypes.RECEIVE, IDistance[]>
+  | GAction<ActionTypes.ADD, IDistance>;
 
 const initialState = {
   data: [],
@@ -28,15 +30,28 @@ const initialState = {
   hasError: false,
 };
 
-export const requestMeterData = () => async (dispatch: Function) =>  {
-  dispatch({ type: ActionTypes.REQUEST })
+export const requestMeterData = () => async (dispatch: Function) => {
+  dispatch({ type: ActionTypes.REQUEST });
   try {
     const response = await fetchMeterData();
     dispatch({ type: ActionTypes.RECEIVE, payload: response });
-  } catch(error) {
+  } catch (error) {
     console.error(error);
-    dispatch({ type: ActionTypes.REJECT })
+    dispatch({ type: ActionTypes.REJECT });
   }
+};
+
+export const addNewRecord = (date: string, distance: number) => (
+  dispatch: Function
+) => {
+  // Here we should send new record to server
+  dispatch({
+    type: ActionTypes.ADD,
+    payload: {
+      date,
+      distance,
+    },
+  });
 };
 
 export default (
@@ -50,6 +65,8 @@ export default (
       return { ...state, loading: false, data: action.payload };
     case ActionTypes.REJECT:
       return { ...state, loading: false, hasError: true };
+    case ActionTypes.ADD:
+      return { ...state, data: [...state.data, action.payload] };
     default:
       return { ...state };
   }
